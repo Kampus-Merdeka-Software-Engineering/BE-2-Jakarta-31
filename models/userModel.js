@@ -50,6 +50,16 @@ const userModel = {
         return result[0].count > 0;
     },
     
+    addSubscriber: async (email)=>{
+        try{
+            const sql = `INSERT INTO subscribers (email) VALUES (?)`;
+            const [result] = await db.execute(sql, [email]);
+            return result;
+        } catch(error){
+            console.error("Error adding subscriber: ", error);
+            throw error;
+        }
+    },
 }
 
 export default userModel;
