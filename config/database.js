@@ -1,10 +1,8 @@
-import mysql2 from 'mysql2/promise';
+import { Sequelize } from 'sequelize';
 
-const db = await mysql2.createConnection({
+const db = new Sequelize('newsportal','root','',{
     host: "localhost",
-    user: "root",
-    password: "",
-    database: "newsportal"
+    dialect: "mysql",
 })
 
 export default db

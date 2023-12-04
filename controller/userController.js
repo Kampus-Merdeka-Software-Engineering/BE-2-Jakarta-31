@@ -1,54 +1,54 @@
 import apiResponse from "../utils/apiResponse.js";
-import userModel from "../models/userModel.js";
+import bcrypt from "bcrypt";
+import { readUser, createUser, isEmailExist } from "../services/usersService.js";
 
 
     const getAllUsers = async (req, res) => {
         try{
-            const users = await userModel.getAllUser();
+            const users = await readUser();
             apiResponse(200, users, "Get all data from users", res);
         }catch(error){
             apiResponse(500, null, "Error getting data from users", res);
         }
+        
     };
 
-    const createUser = async (req, res) => {
+    const postCreateUser = async (req, res) => {
         try {
-            
             const { nama, email, password } = req.body;
-            const isEmailExist = await userModel.isEmailExist(email);
-            if(isEmailExist){
-                apiResponse(500,null , "Email tersebut sudah ada", res)
-            }else{
+            if(await isEmailExist(email)){
+                return apiResponse(500,null , "Email tersebut sudah ada", res);
+            }
 
-            const result = await userModel.createUser(nama, email, password);
-            if (result?.affectedRows) {
+            const newUser = await createUser(nama,  email, password);
+            if (newUser) {
                 const data = {
-                    isSuccess: result.affectedRows,
-                    id: result.insertId,
+                    isSuccess: true,
+                    id: newUser.id,
                 };
                 apiResponse(200, data, 'Register Berhasil', res);
             } else {
                 console.log("Register gagal");
             }
-        }
+        
         } catch (error) {
             console.error('Error creating user:', error.message);
-            apiResponse(500, null, 'Internal Server Error', res);
+            if(!res.headersSent){
+                apiResponse(500, null, 'Internal Server Error', res);
+            }
         }
     };
 
     const loginUser = async (req, res) =>{
         const { email, password } = req.body;
         try {
-            const user = await userModel.loginUser(email, password);
-            
-            if(user){
+            const user = await isEmailExist(email);
+            if(user && await bcrypt.compare(password, user.password)){   
                 req.session.user = user;
-                apiResponse(200, "Login Success", "Login Success", res)
-            } else {
-            apiResponse(401, null, 'Invalid email or password', res);
-            }  
-        }catch (error) {
+                return apiResponse(200, "Login Success", "Login Success", res)    
+            }
+                apiResponse(401, null, 'Invalid email or password', res);  
+            }catch (error) {
                 console.error('Error during login:', error);
                 apiResponse(500, null, 'Internal Server Error', res);
             }
@@ -62,36 +62,16 @@ import userModel from "../models/userModel.js";
             }
                 res.json({ message: "Logout Successfull"});
         });
-
     };
 
     const userSession = async(req, res) =>{
         if (req.session.user) {
             apiResponse(200, { user: req.session.user }, 'Access granted', res);
         } else {
-                apiResponse(401, null, 'Unauthorized', res);
+            apiResponse(401, null, 'Unauthorized', res);
         }
     };
 
-    const saveSubscriber = async(req, res) =>{
-        const {email} = req.body;
-        try{
-            const result = await userModel.addSubscriber(email);
-            if(result?.affectedRows){
-                const data = {
-                    isSuccess: result.affectedRows,
-                    id: result.insertId
-                };
-                apiResponse(200, data, "Berhasil Subscribe", res);
-            }else{
-                console.log("Subscribe Gagal");
-                apiResponse(200, null, "Gagal melakukan Subscribe", res);
-            }
-        }catch (error){
-            console.error("Error:", error);
-            apiResponse(500, null, "Internal Server Error", res);
-        }
-    }
     
 
-export { getAllUsers, createUser, loginUser, logoutUser ,userSession, saveSubscriber };
+export { getAllUsers, postCreateUser, loginUser, logoutUser ,userSession };
