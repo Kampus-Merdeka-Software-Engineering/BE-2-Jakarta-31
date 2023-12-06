@@ -1,5 +1,5 @@
 import {createSubscribers} from "../services/subsService.js"
-import {isEmailExist} from "../services/usersService.js"
+import {isEmailExist} from "../services/userService.js"
 import apiResponse from "../utils/apiResponse.js";
 
 const postCreateSubscriber = async(req, res) =>{

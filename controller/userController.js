@@ -1,6 +1,6 @@
 import apiResponse from "../utils/apiResponse.js";
 import bcrypt from "bcrypt";
-import { readUser, createUser, isEmailExist } from "../services/usersService.js";
+import { readUser, createUser, isEmailExist } from "../services/userService.js";
 
 
     const getAllUsers = async (req, res) => {
@@ -43,7 +43,7 @@ import { readUser, createUser, isEmailExist } from "../services/usersService.js"
         const { email, password } = req.body;
         try {
             const user = await isEmailExist(email);
-            if(user && await bcrypt.compare(password, user.password)){   
+            if(user && await bcrypt.compare(password, user.password)){
                 req.session.user = user;
                 return apiResponse(200, "Login Success", "Login Success", res)    
             }

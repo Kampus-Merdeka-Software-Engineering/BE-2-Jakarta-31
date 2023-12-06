@@ -8,7 +8,7 @@ const configureMiddleware = (app) => {
   app.use(session({
     secret: 'T34mP31',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false
   }));
 };
 
