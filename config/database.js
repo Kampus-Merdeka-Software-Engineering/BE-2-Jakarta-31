@@ -13,9 +13,9 @@ const db = new Sequelize(DB_URI,{
 
 
 //local
-// const db = new Sequelize('DB_NAME','DB_USER','DB_PASSWORD',{
-//     host: "DB_HOST",
-//     dialect: "DB_DIALECT",
+// const db = new Sequelize('newsportal','root','',{
+//     host: "localhost",
+//     dialect: 'mysql',
 // })
 
 export default db

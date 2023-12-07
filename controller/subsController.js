@@ -1,12 +1,11 @@
-import {createSubscribers} from "../services/subsService.js"
-import {isEmailExist} from "../services/userService.js"
+import {createSubscribers, isEmailExist} from "../services/subsService.js"
 import apiResponse from "../utils/apiResponse.js";
 
 const postCreateSubscriber = async(req, res) =>{
     try{
         const {email} = req.body;
             if(await isEmailExist(email)){
-                return apiResponse(401,null , "Subscribe gagal, Email sudah ada", res);
+                return apiResponse(409,null , "Subscribe gagal, Email sudah ada", res);
             }
 
         const result = await createSubscribers(email);

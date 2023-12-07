@@ -6,4 +6,8 @@ const createSubscribers = async (email) =>{
     })
 }
 
-export {createSubscribers}
+const isEmailExist = async (email) => {
+    return await subsModel.findOne({where: {email: email}})
+}
+
+export {createSubscribers, isEmailExist}

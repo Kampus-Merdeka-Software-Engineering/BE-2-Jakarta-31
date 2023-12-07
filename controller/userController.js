@@ -17,9 +17,8 @@ import { readUser, createUser, isEmailExist } from "../services/userService.js";
         try {
             const { nama, email, password } = req.body;
             if(await isEmailExist(email)){
-                return apiResponse(401,null , "Register gagal, Email tersebut sudah ada", res);
+                return apiResponse(409,null , "Register gagal, Email tersebut sudah ada", res);
             }
-
             const newUser = await createUser(nama,  email, password);
             if (newUser) {
                 const data = {
