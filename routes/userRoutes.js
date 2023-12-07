@@ -8,7 +8,7 @@ router.get('/', checkAuth, getAllUsers);
 router.post('/register', postCreateUser);
 router.post('/protected',checkAuth, userSession);
 router.post('/login', loginUser);
-router.delete('/logout', logoutUser);
+router.post('/logout', logoutUser);
 
 
 

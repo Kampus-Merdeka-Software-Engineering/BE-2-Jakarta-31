@@ -6,8 +6,9 @@ const postCreateSubscriber = async(req, res) =>{
     try{
         const {email} = req.body;
             if(await isEmailExist(email)){
-                return apiResponse(500,null , "Email tersebut sudah ada", res);
+                return apiResponse(401,null , "Subscribe gagal, Email sudah ada", res);
             }
+
         const result = await createSubscribers(email);
         if(result){
             const data = {
@@ -17,7 +18,6 @@ const postCreateSubscriber = async(req, res) =>{
             apiResponse(200, data, "Berhasil Subscribe", res);
         }else{
             console.log("Subscribe Gagal");
-            apiResponse(200, null, "Gagal melakukan Subscribe", res);
         }
     }catch (error){
         console.error("Error:", error);
