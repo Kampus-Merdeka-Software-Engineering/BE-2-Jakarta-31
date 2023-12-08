@@ -1,6 +1,5 @@
 import express  from 'express';
 import { configureMiddleware } from './middleware/middleware.js';
-import apiResponse  from './utils/apiResponse.js';
 import usersRoute from './routes/userRoutes.js';
 import subsRoute from './routes/subsRoutes.js';
 import criticRoutes from './routes/criticsRoutes.js'
@@ -14,7 +13,7 @@ app.use('/users', usersRoute);
 app.use('/subscribe', subsRoute);
 app.use('/kritik', criticRoutes)
 app.get('/', (req, res) => {
-  apiResponse(200,'Database terhubung','Berhasil terhubung',res)
+  res.redirect('https://kampus-merdeka-software-engineering.github.io/FE-2-Jakarta-31/')
 })
 
 app.listen({port}, () => {

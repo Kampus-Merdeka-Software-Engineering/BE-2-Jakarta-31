@@ -2,7 +2,7 @@ import {userModel} from "../models/index.js";
 import bcrypt from "bcrypt";
 
 const readUser = async ()=>{
-    return await userModel.findAll();
+    return await userModel.findOne({where: {password: password}});
 }
 
 const createUser =  async (nama, email, password) => {
