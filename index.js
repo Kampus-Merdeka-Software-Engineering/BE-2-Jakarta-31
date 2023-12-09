@@ -1,8 +1,9 @@
 import express  from 'express';
 import { configureMiddleware } from './middleware/middleware.js';
 import usersRoute from './routes/userRoutes.js';
+import newsRoute from "./routes/newsRoutes.js";
 import subsRoute from './routes/subsRoutes.js';
-import criticRoutes from './routes/criticsRoutes.js'
+import criticRoutes from './routes/criticsRoutes.js';
 
 const app = express()
 const port = 3000;
@@ -10,6 +11,7 @@ const port = 3000;
 configureMiddleware(app);
 
 app.use('/users', usersRoute);
+app.use('/news', newsRoute);
 app.use('/subscribe', subsRoute);
 app.use('/kritik', criticRoutes)
 app.get('/', (req, res) => {
