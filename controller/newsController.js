@@ -7,7 +7,7 @@ dotenv.config();
 const apiKey = process.env.API_KEY;
 const apiUrl = 'https://newsapi.org/v2/top-headlines';
 const country = 'us';
-const pageSize = 10;
+const pageSize = 15;
 
 const getNewsByCategory = async (category, res) =>{
     try{

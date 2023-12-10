@@ -1,17 +1,6 @@
 import apiResponse from "../utils/apiResponse.js";
 import bcrypt from "bcrypt";
-import { readUser, createUser, isEmailExist } from "../services/userService.js";
-
-
-    const getAllUsers = async (req, res) => {
-        try{
-            const users = await readUser();
-            apiResponse(200, users, "Get all data from users", res);
-        }catch(error){
-            apiResponse(500, null, "Error getting data from users", res);
-        }
-        
-    };
+import { createUser, isEmailExist } from "../services/userService.js";
 
     const postCreateUser = async (req, res) => {
         try {
@@ -65,7 +54,7 @@ import { readUser, createUser, isEmailExist } from "../services/userService.js";
 
     const userSession = async(req, res) =>{
         if (req.session.user) {
-            apiResponse(200, { user: req.session.user }, 'Access granted', res);
+            apiResponse(200, { user: req.session.user.password }, 'Access granted', res);
         } else {
             apiResponse(401, null, 'Unauthorized', res);
         }
@@ -73,4 +62,4 @@ import { readUser, createUser, isEmailExist } from "../services/userService.js";
 
     
 
-export { getAllUsers, postCreateUser, loginUser, logoutUser ,userSession };
+export { postCreateUser, loginUser, logoutUser ,userSession };

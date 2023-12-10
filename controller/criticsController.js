@@ -1,17 +1,5 @@
-import { createCritics, getCritics } from "../services/criticsService.js"
-import apiResponse, {} from "../utils/apiResponse.js"
-
-
-const readCritics = async(req, res)=> {
-    try{
-        const data = await getCritics()
-        apiResponse(200, data, "Get all critics from users", res);
-    }catch(error){
-        apiResponse(500, error, "Error getting critics from users", res);
-    }
-    
-}
-
+import { createCritics } from "../services/criticsService.js"
+import apiResponse from "../utils/apiResponse.js"
 
 const postCreateCritics = async(req, res) => {
         try{
@@ -24,7 +12,7 @@ const postCreateCritics = async(req, res) => {
                 }
                 apiResponse(200, data,"Kritik berhasil terkirim", res);
             }else{
-                apiResponse(500, null, "Kritik gagal terkirim", res);
+                console.log("Kritik gagal terkirim");
             }
     }catch(error){
         console.error("Error:", error);
@@ -32,4 +20,4 @@ const postCreateCritics = async(req, res) => {
     }
 };
 
-export {postCreateCritics, readCritics}
+export {postCreateCritics}
