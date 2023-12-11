@@ -12,4 +12,10 @@ const db = new Sequelize(DB_URI,{
 });
 
 
+//local
+// const db = new Sequelize('newsportal','root','',{
+//     host: "localhost",
+//     dialect: 'mysql',
+// })
+
 export default db
